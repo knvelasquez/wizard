@@ -1,0 +1,33 @@
+Development of a Wizard to upload jpg images from local drive to local browser
+
+http://camanjs.com/examples/
+
+and align based on the resolution of the active display. 
+The wizard needs to be implemented responsive.
+
+The visible part of the image is in a square of constant size. 
+Inside this square, a rectangle representing the screen resolution is drawn. As screen does, 
+in general, have not the same number of pixels horizontal and vertical 2 sides of the rectangle are different from the square. 
+The user can via drag move the visible part of the image. 
+Scaling of the image needs to be possible.
+
+The wizard has 3 steps / tabs. Going forward and backward needs to be possible.
+The following parameters are on each tab:
+1) Base Data:
+- Select image
+- Display resolution of display
+- Display resolution of image
+- Drag visible part of image
+
+2) Overlay Data:
+- Little image preloaded (circle of constant size) on overlay
+- Select size of circle (50%,100%,200%
+- Allow position of circle over image
+
+3) Upload:
+- email of the user with regex for basic checks
+- Botton “Complete”
+
+After clicking on Complete a JS function should be called. Some data needs to be available in this function: x,y,dx,dy,circlex,circley,cireclesize.
+
+For the image processing part, I think CamanJS would be a good choice as layers are supported.
