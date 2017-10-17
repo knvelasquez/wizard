@@ -57,7 +57,7 @@
 									<div id="dvviewport" style="position: relative;top: 50%;transform: translate(-15%,-60%);transform: translateY(-50%);">
 										<img id="imgviewport" style="width:100%" src="img/img.png"/>
 										<div id="dvcircle" style="position:absolute;cursor: -webkit-grab;">
-											<img src="img/circle.png" style="width: 50px;" />
+											<img src="img/circle.png" style="width: 130px;" />
 										</div>	
 									</div>															
 								</div>								
