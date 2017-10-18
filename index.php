@@ -142,6 +142,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>	
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="js/jquery.ui.touch-punch.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
     <!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -156,7 +157,7 @@
 		$file=((Cookies.get("imgviewer")!==undefined)?JSON.parse(Cookies.get("imgviewer")):{});
 		$(function(){
 			$("#rootwizard").bootstrapWizard({'tabClass': 'nav nav-tabs'});				
-			if(Cookies.get('circle_top')==="undefined" || Cookies.get('circle_left')==="undefined"){
+			if(Cookies.get('circle_top')===undefined || Cookies.get('circle_left')===undefined){
 				Cookies.set('circle_top', "0px");
 				Cookies.set('circle_left', "0px");
 			}			
