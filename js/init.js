@@ -1,3 +1,6 @@
+/*
+ *
+*/
 (function(w){
 	var sw = document.body.clientWidth, //Viewport Width
 		minViewportWidth = 240, //Minimum Size for Viewport
@@ -359,21 +362,43 @@
 	//   1. on "mousedown" store the click location
 	//   2. make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost in the iframe
 	//   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
-	$('#sg-rightpull').mousedown(function(event) {					
+	$('#sg-rightpull').on({ 'touchstart' : function(event){
+		
 		// capture default data
-		var origClientX = event.clientX;
+		var origClientX = event.originalEvent.touches[0].pageX;
 		var origViewportWidth = $sgViewport.width();
 				
 		fullMode = false;
 		
 		// show the cover
-		$("#sg-cover").css("display","block");
-		
+		//$("#sg-cover").css("display","block");
+		$('#sg-rightpull').on({ 'touchmove' : function(event){
+			viewportWidth = (origClientX > event.originalEvent.touches[0].pageX) ? origViewportWidth - ((origClientX - event.originalEvent.touches[0].pageX)*2) : origViewportWidth + ((event.originalEvent.touches[0].pageX - origClientX)*2);
+			if (viewportWidth > minViewportWidth) {
+				
+				if(viewportWidth>=($("#zsg-vp-wrap").width())){					
+					window.location.hash = $("#zsg-vp-wrap").width()-viewportResizeHandleWidth;
+					sizeiframe($("#zsg-vp-wrap").width()-viewportResizeHandleWidth,false);
+					event.stopPropagation();
+					return false;
+				}					
+				window.location.hash = viewportWidth;
+				sizeiframe(viewportWidth,false);
+			}
+			
+		}		
+		});				
+	}});				
+	$('#sg-rightpull').mousedown(function(event) {					
+		// capture default data
+		var origClientX = event.clientX;
+		var origViewportWidth = $sgViewport.width();			
+		fullMode = false;		
+		// show the cover
+		$("#sg-cover").css("display","block");		
 		// add the mouse move event and capture data. also update the viewport width
-		$('#sg-cover').mousemove(function(event) {
-			
-			viewportWidth = (origClientX > event.clientX) ? origViewportWidth - ((origClientX - event.clientX)*2) : origViewportWidth + ((event.clientX - origClientX)*2);
-			
+		$('#sg-cover').mousemove(function(event) {			
+			viewportWidth = (origClientX > event.clientX) ? origViewportWidth - ((origClientX - event.clientX)*2) : origViewportWidth + ((event.clientX - origClientX)*2);			
 			if (viewportWidth > minViewportWidth) {
 				
 				if(viewportWidth>=($("#zsg-vp-wrap").width())){					
@@ -387,13 +412,11 @@
 			}
 		});
 	});
-
 	// on "mouseup" we unbind the "mousemove" event and hide the cover again
 	$('body').mouseup(function(event) {
 		$('#sg-cover').unbind('mousemove');
 		$('#sg-cover').css("display","none");
 	});
-
 	// capture the viewport width that was loaded and modify it so it fits with the pull bar
 	var origViewportWidth = $sgViewport.width();
 	$sgWrapper.width(origViewportWidth);
