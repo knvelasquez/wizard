@@ -19,7 +19,7 @@
 		hayMode = false,
 		hash = window.location.hash.replace(/^.*?#/,'');
 		
-		if(parseInt(hash)>$("#zsg-vp-wrap").width()){			
+		if(parseInt(hash)>$("#zsg-vp-wrap").width() || isNaN(parseInt(hash))){			
 			hash=$("#zsg-vp-wrap").width();
 		}
 					

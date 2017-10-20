@@ -71,7 +71,7 @@
 							<li><a href="#tab3" data-toggle="tab">Upload</a></li>					
 						</ul>
 						<div id="bar" class="progress" style="margin:0;margin-top: 1px;;height:5px;">
-							<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;background-color: #dee0e2;"></div>
+							<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;zackground-color: #dee0e2;"></div>
 						</div>
 						<div class="tab-content">
 							<div class="tab-pane" id="tab1">
@@ -108,13 +108,38 @@
 										  <input type="text" id="emailfield" name="emailfield" class="form-control required email">
 										</div>
 									</div>
+									<div id="dvimgdata" class="form-group" style="display:none">	
+										<label for="exampleInputEmail1">Image Data</label>
+										<div class="controls">
+											<div>
+												x: <span id="spimgx"></span>
+												y: <span id="spimgy"></span>
+											</div>
+											<div>
+												width: <span id="spimgw"></span>
+												height: <span id="spimgh"></span>
+											</div>										 
+										</div>
+									</div>
+									<div id="dvcircledata" class="form-group" style="display:none">	
+										<label for="exampleInputEmail1">Circle Data</label>
+										<div class="controls">
+											<div>
+												x: <span id="spcircx"></span>
+												y: <span id="spcircy"></span>
+											</div>
+											<div>
+												Size: <span id="spcircs"></span>												
+											</div>										 
+										</div>
+									</div>
 								</form>																
 							</div>						
 							<ul class="pager wizard">
-								<li class="previous first" style="display:none;"><a href="#">First</a></li>
-								<li class="previous"><a href="#">Previous</a></li>
-								<li class="next last" style="display:none;"><a href="#">Last</a></li>
-								<li class="next"><a href="#">Next</a></li>
+								<li class="previous first" style="display:none;"><a href="javascript:;">First</a></li>
+								<li class="previous"><a href="javascript:;">Previous</a></li>
+								<li class="next last" style="display:none;"><a href="javascript:;">Last</a></li>
+								<li class="next"><a href="javascript:;">Next</a></li>
 								<li class="finish" style="float: right"><a href="javascript:;">Complete</a></li>
 							</ul>
 						</div>
@@ -163,8 +188,13 @@
 			});
 			$('#rootwizard').bootstrapWizard({
 				tabClass: 'nav nav-tabs'
-				,onTabClick: function(tab, navigation, index) {	}	
-				,onTabShow: function(tab, navigation, index) {
+				,onTabClick: function(tab, navigation, index) {					
+					if(Cookies.get("imgviewer")===undefined) {												
+						alert("Please Select Image to continue");
+						return false;
+					}
+				}	
+				,onTabShow: function(tab, navigation, index) {										
 					//hide circle img select
 					((index<1)?$("#dvcircle").hide():$("#dvcircle").show("slow"))
 					//
@@ -172,17 +202,40 @@
 					var $current = index+1;
 					var $percent = ($current/$total) * 100;
 					if(Cookies.get("imgviewer")===undefined){
-						$percent=0;
-					}					
+						$percent=0;						
+					}
+					//
 					$('#rootwizard .progress-bar').css({width:$percent+'%'});	
 				}							
 				,onPrevious: function(tab, navigation, index) {	}
-				,onNext: function(tab, navigation, index) { }
+				,onNext: function(tab, navigation, index) {
+					if(Cookies.get("imgviewer")===undefined) {												
+						alert("Please Select Image to continue");
+						return false;
+					}
+				}
 				,onLast: function(tab, navigation, index) {}
 			});	
 			$('#rootwizard .finish').click(function() {
 				if($("#signupForm").valid()){
-					alert("completed");
+					var $dvviewport=$("#dvviewport");
+					var $dvcircle=$("#dvcircle");
+					var $imgData={
+						x:$dvviewport.position().top,
+						y:$dvviewport.position().left,
+						w:$dvviewport.width(),
+						h:$dvviewport.height()
+					};
+					var $circleData={
+						x:$dvcircle.position().top,
+						y:$dvcircle.position().left,
+						size:$dvcircle.width()					
+					};
+					onComplete($imgData,$circleData);
+				}
+				else{
+					$("#dvimgdata").hide();
+					$("#dvcircledata").hide();
 				}
 			});
 			//			
@@ -295,18 +348,31 @@
 				Cookies.set($select, $($select).val());
 			}												
 			if($bool)
-			{
-				//Set the Select.
+			{//Set the Select.				
 				$($select).val(Cookies.get($select));					
 			}
 			else
-			{
-				//Save to cookies
+			{//Save to cookies				
 				Cookies.set($select, $($select).val());
 			}															
 			//Set the image circle size.
 			$("#dvcircle img").width($($select).val());															
-		}		
+		}	
+		function onComplete($imgData={x:0,y:0,w:0,h:0},
+							$circleData={x:0,y:0,size:0})
+		{
+			$("#dvimgdata").show("slow");
+			$("#dvcircledata").show("slow");
+			//Set image Data.
+			$("#spimgx").text($imgData.x);
+			$("#spimgy").text($imgData.y);
+			$("#spimgw").text($imgData.w);
+			$("#spimgh").text($imgData.h);
+			//Set circle Data.
+			$("#spimgw").text($circleData.x);
+			$("#spimgh").text($circleData.y);
+			$("#spimgs").text($circleData.size);			
+		}
 	</script>	
   </body>
 </html>

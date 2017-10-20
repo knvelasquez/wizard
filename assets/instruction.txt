@@ -3,7 +3,7 @@ Development of a Wizard to upload jpg images from local drive to local browser
 http://camanjs.com/examples/
 
 and align based on the resolution of the active display. 
-The wizard needs to be implemented responsive.
+The wizard needs to be implemented responsive. ok
 
 The visible part of the image is in a square of constant size. 
 Inside this square, a rectangle representing the screen resolution is drawn. As screen does, 
