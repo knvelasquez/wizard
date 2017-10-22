@@ -206,6 +206,13 @@
 					}
 					//
 					$('#rootwizard .progress-bar').css({width:$percent+'%'});	
+					if(index===2){
+						$("#dvcircle").draggable("disable");						
+					}
+					else if($("#dvcircle").is('.ui-draggable'))
+					{						
+						$("#dvcircle").draggable("enable");
+					}
 				}							
 				,onPrevious: function(tab, navigation, index) {	}
 				,onNext: function(tab, navigation, index) {
@@ -369,9 +376,9 @@
 			$("#spimgw").text($imgData.w);
 			$("#spimgh").text($imgData.h);
 			//Set circle Data.
-			$("#spimgw").text($circleData.x);
-			$("#spimgh").text($circleData.y);
-			$("#spimgs").text($circleData.size);			
+			$("#spcircx").text($circleData.x);
+			$("#spcircy").text($circleData.y);
+			$("#spcircs").text($circleData.size);			
 		}
 	</script>	
   </body>
